@@ -1,0 +1,332 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Grape Soda';
+    src: url('media/font/grape-soda.ttf') format('truetype'),
+         url('media/font/grape-soda.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Grape Soda', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0a1828;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* Intro Screen */
+#intro-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #0a1828;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.8s ease-out;
+}
+
+#intro-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.shades-container {
+    cursor: pointer;
+}
+
+.shades {
+    width: 200px;
+    height: auto;
+    transition: transform 0.3s ease;
+    animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+}
+
+.shades:hover {
+    transform: scale(1.1);
+}
+
+.shades.clicked {
+    animation: expand-fade 0.8s ease-out forwards;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+    }
+    50% {
+        filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.8));
+    }
+}
+
+@keyframes expand-fade {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* Main Content */
+#main-content {
+    opacity: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease-in;
+    pointer-events: none;
+    background: radial-gradient(circle at center, #1a3a52 0%, #0a1828 70%);
+}
+
+#main-content.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.content-wrapper {
+    text-align: center;
+    max-width: 800px;
+    padding: 40px;
+}
+
+/* Profile Section */
+.profile-section {
+    margin-bottom: 60px;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 40px rgba(74, 158, 255, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 50px rgba(74, 158, 255, 0.6);
+}
+
+.name {
+    font-size: 56px;
+    font-weight: normal;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.tagline {
+    font-size: 28px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 15px;
+    font-weight: 300;
+}
+
+.cta-button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 15px 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.cta-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
+}
+
+/* Social Links */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.social-icon {
+    display: inline-block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.social-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, rgba(74, 158, 255, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.social-icon:hover::before {
+    opacity: 1;
+}
+
+.social-icon img {
+    width: 60px;
+    height: 60px;
+    filter: brightness(0.9) drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-10px);
+}
+
+.social-icon:hover img {
+    filter: brightness(1.2) drop-shadow(0 10px 25px rgba(74, 158, 255, 0.6));
+}
+
+/* Email Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    opacity: 1;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #1a3a52 0%, #0f2235 100%);
+    padding: 50px 70px;
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 36px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    line-height: 1;
+}
+
+.close-modal:hover {
+    color: #ffffff;
+}
+
+.modal-content h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.modal-content p {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 30px;
+}
+
+.email-link {
+    display: inline-block;
+    padding: 16px 45px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 22px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.email-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .name {
+        font-size: 42px;
+    }
+    
+    .profile-image {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .tagline {
+        font-size: 20px;
+    }
+    
+    .shades {
+        width: 150px;
+    }
+    
+    .social-icon img {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .social-links {
+        gap: 30px;
+    }
+}
